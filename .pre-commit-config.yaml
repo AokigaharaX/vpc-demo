@@ -1,0 +1,30 @@
+# .pre-commit-config.yml
+# Pre-commit configuration for Terraform projects
+#
+# terraform_providers_lock hook is not added due to performance issue
+# To update providres lock: terraform provider lock -platform=linux_amd64 -platform=windows_amd64
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+        exclude: README.md
+      - id: check-yaml
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.99.4
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_tflint
+        name: TFLint - validates all Terraform configuration files
+        args:
+          - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
+      - id: terraform_trivy
+        name: Trivy - static analysis of terraform templates to spot potential security issues
+        args:
+          - --args=--skip-dirs="**/.terraform"
+          - --args=--ignorefile=__GIT_WORKING_DIR__/.trivyignore
+      - id: terraform_docs
+        args:
+          - --args=--config=.terraform-docs.yaml
