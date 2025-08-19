@@ -1,4 +1,4 @@
-Copyright (C) 2025 Razer Inc.
+Copyright (C) 2025 ABC Inc.
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
